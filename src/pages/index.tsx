@@ -1,21 +1,31 @@
-import { useLogout } from "@/auth/queries";
+import { useAuthToken } from "@/auth/queries";
 import { NavBar } from "@/components/navbar";
-import { Button, Flex, Text } from "@radix-ui/themes";
+import { StoryOverviewCard } from "@/components/storyoverview";
+import { getAllStories } from "@/data/stories";
+import { Flex } from "@radix-ui/themes";
 import { useQuery } from "@tanstack/react-query";
 
 export default function Home() {
-  const {data: token} = useQuery({
-    queryKey: ["token"]
+  const {token} = useAuthToken()
+
+  const {data: stories, isLoading} = useQuery<ResponseType>({
+    queryKey: ['stories'],
+    queryFn: async () => {
+      return await getAllStories(token)
+    },
+    enabled: !!token
   })
 
-  const {mutate: logout} = useLogout()
+  if (isLoading) {
+    return <>Loading...</>
+  }
+
   return (
     <>
-     <Flex direction="column" gap="2">
-      <Text>Hello World!</Text>
-      <Text>{token}</Text>
-      <Button>Let's Go!</Button>
-      <Button onClick={()=>{logout()}}>Log Out</Button>
+     <Flex direction="column" gap="2" p="3">
+        {!isLoading && stories?.map(story => {
+          return <StoryOverviewCard key={story.id} story={story} />
+        })}
      </Flex>
     </>
   );
