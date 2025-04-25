@@ -1,6 +1,41 @@
 import { Box, Card, Flex, Text } from "@radix-ui/themes"
 
-export const StoryOverviewCard = ({story}) => {
+interface Author {
+    first_name: string;
+    last_name: string;
+    id: string | number;
+  }
+  
+  interface Category {
+    name: string;
+    id: string | number;
+  }
+  
+  interface Tag {
+    name: string;
+    id: string | number;
+  }
+  
+  interface StoryTag {
+    tag: Tag;
+    id: string | number;
+  }
+interface Story {
+    id: string | number;
+    is_public: boolean;
+    author: Author;
+    title: string;
+    subtitle: string;
+    category: Category;
+    story_tags: StoryTag[];
+    average_rating: number;
+  }
+
+  interface StoryOverviewCardProps {
+    story: Story
+  }
+
+export const StoryOverviewCard: React.FC<StoryOverviewCardProps> = ({story}) => {
     const {is_public, author, title, subtitle, category, story_tags, average_rating} = story
 
     // if (!is_public){
@@ -17,7 +52,7 @@ export const StoryOverviewCard = ({story}) => {
                         {title} 
                         </Text>
                         <Text>
-                        "{subtitle}"
+                        {subtitle ? `"${subtitle}"` : ""}
                         </Text>
                     </Flex> 
                     <Flex align="center">
@@ -27,10 +62,10 @@ export const StoryOverviewCard = ({story}) => {
                         {category.name}
                     </Flex>
                     <Flex align="center">
-                        {story_tags.map(story_tag => `"${story_tag.tag.name}, `)}
+                        {story_tags.map(story_tag => `"${story_tag.tag.name}", `)}
                     </Flex>
                     <Flex align="center">
-                       Average Ratng: {average_rating || "No Reviews"}
+                       Average Rating: {average_rating || "No Reviews"}
                     </Flex>
                 </Flex>
             </Card>
