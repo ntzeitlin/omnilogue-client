@@ -5,10 +5,22 @@ import { getAllStories } from "@/data/stories";
 import { Flex } from "@radix-ui/themes";
 import { useQuery } from "@tanstack/react-query";
 
+
+interface StoryOverview {
+  "id": number;
+  "is_public": boolean;
+  "author": object;
+  "title": string;
+  "subtitle": string;
+  "category": object;
+  "story_tags": object[];
+  "average_rating": number; 
+}
+
 export default function Home() {
   const {token} = useAuthToken()
 
-  const {data: stories, isLoading} = useQuery<ResponseType>({
+  const {data: stories, isLoading} = useQuery<StoryOverview[]>({
     queryKey: ['stories'],
     queryFn: async () => {
       return await getAllStories(token)
