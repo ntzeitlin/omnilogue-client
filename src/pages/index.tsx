@@ -1,4 +1,5 @@
 import { useLogout } from "@/auth/queries";
+import { NavBar } from "@/components/navbar";
 import { Button, Flex, Text } from "@radix-ui/themes";
 import { useQuery } from "@tanstack/react-query";
 
@@ -18,4 +19,15 @@ export default function Home() {
      </Flex>
     </>
   );
+}
+
+Home.getLayout = function getLayout(page)
+{
+  return (
+    <>
+    <NavBar />
+    {page}
+    </>
+
+  )
 }

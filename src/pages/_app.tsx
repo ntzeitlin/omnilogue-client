@@ -7,12 +7,12 @@ import { QueryWrapper } from '@/context/context';
 
 
 export default function App({ Component, pageProps }: AppProps) {
-
+  const getLayout = Component.getLayout || ((page) => page)
   return (
   <Theme appearance='dark'>
     <QueryWrapper>
       <PageWrapper>
-        <Component {...pageProps} />
+        {getLayout(<Component {...pageProps} />)}
       </PageWrapper>
     </QueryWrapper>
   </Theme>

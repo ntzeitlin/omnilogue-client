@@ -1,4 +1,5 @@
 import { useAuthStatus } from "@/auth/queries"
+import Head from "next/head"
 import { useRouter } from "next/router"
 
 
@@ -17,7 +18,12 @@ export const PageWrapper = ({children}) => {
 
   return (
     <>
-      {children}
+      <Head>
+        <title>OMNILOGUE</title>
+      </Head>
+      <main>  
+        {children}
+      </main> 
     </>
   )
 }
