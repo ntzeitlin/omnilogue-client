@@ -1,5 +1,6 @@
 import { useAuthToken } from "@/auth/queries";
 import { NavBar } from "@/components/navbar";
+import { SideBar } from "@/components/sidebar";
 import { StoryOverviewCard } from "@/components/storyoverview";
 import { getAllStories } from "@/data/stories";
 import { Flex } from "@radix-ui/themes";
@@ -21,7 +22,7 @@ export default function Home() {
   const {token} = useAuthToken()
 
   const {data: stories, isLoading} = useQuery<StoryOverview[]>({
-    queryKey: ['stories'],
+    queryKey: ['stories_overview'],
     queryFn: async () => {
       return await getAllStories(token)
     },
@@ -29,7 +30,7 @@ export default function Home() {
   })
 
   if (isLoading) {
-    return <>Loading...</>
+    return <>Loading Stories...</>
   }
 
   return (
@@ -48,7 +49,13 @@ Home.getLayout = function getLayout(page)
   return (
     <>
     <NavBar />
+    <Flex>
+    <SideBar />
+    <Flex grow="1" p="4">
+
     {page}
+    </Flex>
+    </Flex>
     </>
 
   )

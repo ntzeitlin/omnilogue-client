@@ -38,9 +38,9 @@ interface Story {
 export const StoryOverviewCard: React.FC<StoryOverviewCardProps> = ({story}) => {
     const {is_public, author, title, subtitle, category, story_tags, average_rating} = story
 
-    // if (!is_public){
-    //     return ""
-    // }
+    if (!is_public){
+        return ""
+    }
 
     // NOTE: Fix formatting for cards
     return (
