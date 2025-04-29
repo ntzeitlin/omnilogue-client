@@ -1,3 +1,4 @@
+import { TokensIcon } from "@radix-ui/react-icons"
 
 const API_URL = "http://localhost:8000"
 
@@ -15,6 +16,18 @@ export const getAllStories = async (token) => {
 
 export const getBookshelf = async (token) => {
     const response = await fetch (`${API_URL}/bookshelves`, {
+        method: "GET",
+        headers: {
+            Authorization: `Token ${token}`
+        }
+    })
+    const data = await response.json()
+    return data
+}
+
+
+export const getStoryDetail = async (token, storyId) => {
+    const response = await fetch(`${API_URL}/stories/${storyId}`, {
         method: "GET",
         headers: {
             Authorization: `Token ${token}`
