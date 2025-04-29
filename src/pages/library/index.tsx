@@ -1,5 +1,7 @@
 import { useAuthToken } from "@/auth/queries";
 import { NavBar } from "@/components/navbar";
+import { SideBar } from "@/components/sidebar";
+import { StoryOverviewCard } from "@/components/storyoverview";
 import { getAllStories } from "@/data/stories";
 import { Flex } from "@radix-ui/themes";
 import { useQuery } from "@tanstack/react-query";
@@ -16,7 +18,7 @@ interface StoryOverview {
   "average_rating": number; 
 }
 
-export default function Home() {
+export default function Library() {
   const {token} = useAuthToken()
 
   const {data: stories, isLoading} = useQuery<StoryOverview[]>({
@@ -33,18 +35,24 @@ export default function Home() {
 
   return (
     <>
-      OMNILOGUE HOMEPAGE
+     <Flex direction="column" gap="2" p="3">
+        {!isLoading && stories?.map(story => {
+          return <StoryOverviewCard key={story.id} story={story} />
+        })}
+     </Flex>
     </>
   );
 }
 
-Home.getLayout = function getLayout(page)
+Library.getLayout = function getLayout(page)
 {
   return (
     <>
     <NavBar />
     <Flex>
+    <SideBar />
     <Flex grow="1" p="4">
+
     {page}
     </Flex>
     </Flex>
