@@ -33,7 +33,7 @@ export const SideBar = () => {
             {bookshelfStories && bookshelfStories.map((story) => { return (
        <Box key={story.id} px="3" py="2" style={{border: '2px solid white', borderRadius: "6px", background: "", opacity: 0.7}}>
         <Flex direction="column" gap="3">
-                <Link href={`/stories/${story.story.id}`}>{story.story.title}</Link>
+                <Link href={`/library/stories/${story.story.id}`}>{story.story.title}</Link>
                 
         </Flex>
        </Box>
