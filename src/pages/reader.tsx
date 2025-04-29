@@ -1,9 +1,11 @@
 import { NavBar } from "@/components/navbar"
-import { Badge, Box, Button, Card, Flex, Heading, Separator, Text } from "@radix-ui/themes"
+import { Badge, Box, Button, Card, Flex, Heading, ScrollArea, Separator, Text } from "@radix-ui/themes"
 import Head from "next/head"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useState } from "react"
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from "remark-gfm"
 
 
 const data = {
@@ -143,27 +145,45 @@ export default function ReaderView({story=data}) {
         <Head>
            <title>{story?.title} | OMNILOGUE</title> 
         </Head>
-        
-        <Flex className="reader-container" style={{height: '100vh', borderRight: '0.25px solid white'}}>
-            <Box p="3">
-                <Heading size="4" mb="1">{story.title}</Heading>
-                {story.subtitle && (
-                  <Text size="1" color="gray" style={{ fontStyle: 'italic' }}>
-                  {story.subtitle}
-                </Text>  
-                )}
-                {story.author && (
-                    <Flex align="center" gap="2" mb="3">
-                        <Text size="2">
-                    {story.author.first_name} {story.author.last_name}
-                  </Text>
-                    </Flex>
-                )}
-                <StoryMetaData story={data}/>
-                <Separator my="3" size="4" />
+        <Flex>
+            {/* SIDEBAR: */}
+            <Flex direction="column" style={{height: '100vh', borderRight: '0.25px solid white'}}>
+                <Box p="3">
+                    <Heading size="4" mb="1">{story.title}</Heading>
+                    {story.subtitle && (
+                    <Text size="1" color="gray" style={{ fontStyle: 'italic' }}>
+                    {story.subtitle}
+                    </Text>  
+                    )}
+                    {story.author && (
+                        <Flex align="center" gap="2" mb="3">
+                            <Text size="2">
+                        {story.author.first_name} {story.author.last_name}
+                    </Text>
+                        </Flex>
+                    )}
+                    <StoryMetaData story={data}/>
+                    <Separator my="3" size="4" />
 
-                <SectionList sections={data.sections} />
-            </Box>
+                    <SectionList sections={data.sections} />
+                </Box>
+            </Flex>
+
+            {/* READER: */}
+            
+            <ScrollArea type="always" scrollbars="vertical" style={{height: '100vh'}} >
+                <Box mx="5">
+                    {story.sections && (
+                        story.sections.map((section) => (
+                            <Box>
+                                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                                    {section.content}
+                                </ReactMarkdown>
+                            </Box>
+                        ))
+                    )}
+                </Box>
+            </ScrollArea>
 
         </Flex>
 
