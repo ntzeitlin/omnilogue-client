@@ -1,4 +1,5 @@
 import { Box, Card, Flex, Text } from "@radix-ui/themes"
+import Link from "next/link";
 
 interface Author {
     first_name: string;
@@ -36,7 +37,7 @@ interface Story {
   }
 
 export const StoryOverviewCard: React.FC<StoryOverviewCardProps> = ({story}) => {
-    const {is_public, author, title, subtitle, category, story_tags, average_rating} = story
+    const {id, is_public, author, title, subtitle, category, story_tags, average_rating} = story
 
     if (!is_public){
         return ""
@@ -48,9 +49,11 @@ export const StoryOverviewCard: React.FC<StoryOverviewCardProps> = ({story}) => 
             <Card>
                 <Flex gap="4" justify="center"> 
                     <Flex direction="column" align="center">
-                        <Text>
-                        {title} 
-                        </Text>
+                        <Link href={`/library/stories/${id}`}>
+                          <Text>
+                          {title} 
+                          </Text>
+                        </Link>
                         <Text>
                         {subtitle ? `"${subtitle}"` : ""}
                         </Text>
