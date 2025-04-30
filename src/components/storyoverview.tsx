@@ -97,9 +97,9 @@ export const StoryOverviewCard: React.FC<StoryOverviewCardProps> = ({story}) => 
       }
     })
 
-    if (!is_public){
-        return ""
-    }
+    // if (!is_public){
+    //     return ""
+    // }
 
     if (!story) {
       return "Loading..."
