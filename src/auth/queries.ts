@@ -2,7 +2,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { loginUser, registerUser } from '../data/auth';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 
 
 
@@ -10,13 +10,12 @@ import { useCallback, useEffect, useState } from 'react';
 // Custom hook to get and set token from localStorage
 export function useAuthToken() {
   const queryClient = useQueryClient();
-  const [userIdState, setUserId] = useState()
+  const [userIdState, setUserIdState] = useState("")
   
-  // Get token from cache or localStorage
+  // Get token from localStorage
   const { data: token, isLoading: isLoading } = useQuery({
     queryKey: ['token'],
     queryFn: () => {
-      if (typeof window === 'undefined') return null;
       return localStorage.getItem('token') || null
     },
     staleTime: Infinity, // Token doesn't need refetching
@@ -26,11 +25,11 @@ export function useAuthToken() {
   const {data: userId} = useQuery({
     queryKey: ['userId'],
     queryFn: () => {
-      return userIdState || "cant get it"
+      return localStorage.getItem('userId') || null
     },
-    staleTime: Infinity, // userId doesn't need refetching
-    gcTime: Infinity, // Keep userId in cache
-    enabled: !!token
+    staleTime: Infinity,
+    gcTime: Infinity,
+    enabled: !!userIdState
   })
   
   // Update token in both cache and localStorage
@@ -42,6 +41,15 @@ export function useAuthToken() {
     }
     queryClient.setQueryData(['token'], newToken);
   };
+
+  const setUserId = (newId) => {
+    if (newId) {
+      localStorage.setItem('userId', newId)
+    } else {
+      localStorage.removeItem('userId') 
+    }
+    queryClient.setQueryData(['userId'], newId)
+  }
 
 
   return { token, setToken, userId, setUserId, isLoading };
@@ -55,7 +63,6 @@ export function useLogin() {
     return useMutation({
       mutationFn: (credentials) => loginUser(credentials),
       onSuccess: (data) => {
-        console.log(data)
         setToken(data.token)
         setUserId(data.userId)
       },
@@ -72,6 +79,7 @@ export function useLogin() {
       mutationFn:  () => {
         setToken(null);
         queryClient.removeQueries({ queryKey: ['token'] });
+        queryClient.removeQueries({ queryKey: ['userId'] });
       },
       onSuccess: () => {
         router.push('/login');
