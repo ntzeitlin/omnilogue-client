@@ -23,7 +23,7 @@ export const NavBar = () => {
                     <Link href="/">Profile</Link>
                 </TabNav.Link> */}
                 <TabNav.Link asChild active={router.pathname === ""}>
-                    <Link href="/" onClick={()=> {logout()}}>Logout</Link>
+                    <Link href="/login" onClick={()=> {logout()}}>Logout</Link>
                 </TabNav.Link>
             </TabNav.Root>
         </>
