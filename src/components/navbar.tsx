@@ -9,7 +9,7 @@ export const NavBar = () => {
 
     return (
         <>
-            <TabNav.Root justify="center">
+            <TabNav.Root justify="center" mb="3">
                 <TabNav.Link asChild active={router.pathname === "/"}>
                     <Link href="/">Home</Link>
                 </TabNav.Link>
