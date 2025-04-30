@@ -19,7 +19,7 @@ interface StoryOverview {
 }
 
 export default function Library() {
-  const {token} = useAuthToken()
+  const { token } = useAuthToken()
 
   const {data: stories, isLoading} = useQuery<StoryOverview[]>({
     queryKey: ['stories_overview'],

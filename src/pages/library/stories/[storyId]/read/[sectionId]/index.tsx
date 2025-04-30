@@ -25,6 +25,7 @@ ReaderView.getLayout = function getLayout(page) {
     return (
         <>
             <NavBar />
+            {/* Sidebar currently inside the ReaderView component */}
             <ReaderView />
         </>
     )

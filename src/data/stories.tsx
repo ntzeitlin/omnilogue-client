@@ -1,4 +1,3 @@
-import { TokensIcon } from "@radix-ui/react-icons"
 
 const API_URL = "http://localhost:8000"
 

@@ -12,7 +12,8 @@ export const PageWrapper = ({children}) => {
         return <>Checking Authentication...</>
     }  
 
-    if (!isAuthenticated && !authRoutes.includes(router.pathname)) {
+    const isDev = process.env.NODE_ENV === 'development'
+    if (!isDev && !isAuthenticated && !authRoutes.includes(router.pathname)) {
       router.push('/login')
     }
 
