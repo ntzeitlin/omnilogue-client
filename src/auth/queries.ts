@@ -2,7 +2,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { loginUser, registerUser } from '../data/auth';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
 
 
 
