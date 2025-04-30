@@ -19,9 +19,9 @@ export const NavBar = () => {
                 <TabNav.Link asChild active={router.pathname === "/office"}>
                     <Link href="/">Office</Link>
                 </TabNav.Link>
-                <TabNav.Link asChild active={router.pathname === "/profile"}>
+                {/* <TabNav.Link asChild active={router.pathname === "/profile"}>
                     <Link href="/">Profile</Link>
-                </TabNav.Link>
+                </TabNav.Link> */}
                 <TabNav.Link asChild active={router.pathname === ""}>
                     <Link href="/" onClick={()=> {logout()}}>Logout</Link>
                 </TabNav.Link>
