@@ -10,6 +10,7 @@ import { useCallback, useEffect, useState } from 'react';
 // Custom hook to get and set token from localStorage
 export function useAuthToken() {
   const queryClient = useQueryClient();
+  const [userIdState, setUserId] = useState()
   
   // Get token from cache or localStorage
   const { data: token, isLoading: isLoading } = useQuery({
@@ -21,6 +22,16 @@ export function useAuthToken() {
     staleTime: Infinity, // Token doesn't need refetching
     gcTime: Infinity, // Keep token in cache
   });
+
+  const {data: userId} = useQuery({
+    queryKey: ['userId'],
+    queryFn: () => {
+      return userIdState || "cant get it"
+    },
+    staleTime: Infinity, // userId doesn't need refetching
+    gcTime: Infinity, // Keep userId in cache
+    enabled: !!token
+  })
   
   // Update token in both cache and localStorage
   const setToken = (newToken) => {    
@@ -31,19 +42,22 @@ export function useAuthToken() {
     }
     queryClient.setQueryData(['token'], newToken);
   };
-  
-  return { token, setToken, isLoading };
+
+
+  return { token, setToken, userId, setUserId, isLoading };
 }
 
 
 // Login mutation
 export function useLogin() {
-    const { setToken } = useAuthToken();
+    const { setToken, setUserId } = useAuthToken();
     
     return useMutation({
       mutationFn: (credentials) => loginUser(credentials),
       onSuccess: (data) => {
-        setToken(data.token);
+        console.log(data)
+        setToken(data.token)
+        setUserId(data.userId)
       },
     });
   }
