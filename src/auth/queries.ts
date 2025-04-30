@@ -71,7 +71,7 @@ export function useLogin() {
     return useMutation({
       mutationFn:  () => {
         setToken(null);
-        queryClient.removeQueries({ queryKey: AUTH_KEYS.token });
+        queryClient.removeQueries({ queryKey: ['token'] });
       },
       onSuccess: () => {
         router.push('/login');
