@@ -3,11 +3,13 @@ import { NavBar } from "@/components/navbar"
 import { getCategories } from "@/data/categories";
 import { Button, Card, Flex, Select, Text, TextArea, TextField } from "@radix-ui/themes"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 export default function NewStory() {
     const {token} = useAuthToken()
     const queryClient = useQueryClient()
+    const router = useRouter()
 
     const [story, setStory] = useState({
         title: "",
@@ -51,6 +53,7 @@ export default function NewStory() {
     const handleSubmit = (e) => {
         e.preventDefault();
         storySubmissionMutation.mutate()
+        router.push('/office')
     }
 
     return (
