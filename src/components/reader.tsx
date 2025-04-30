@@ -1,3 +1,5 @@
+import { useAuthToken } from "@/auth/queries"
+import { deleteStory } from "@/data/stories"
 import { Badge, Box, Button, Card, Flex, Heading, ScrollArea, Separator, Text } from "@radix-ui/themes"
 import Head from "next/head"
 import Link from "next/link"
@@ -44,7 +46,7 @@ const SectionList = ({sections}) => {
     return (
         <>
         <Heading size="5">Sections:</Heading>
-        {sections.map((section, index) => (
+        {sections?.map((section, index) => (
             <Box py="2" px="3" my="1" key={`story-section-${index}`}>
                 <Text size="2">{section.title}</Text>
             </Box>
@@ -53,10 +55,15 @@ const SectionList = ({sections}) => {
     )
 }
 
+const handleDelete = (token, storyId) => {
+    deleteStory(token, storyId)
+}
+
 //URL: /stories/{story_id}/read/{section_id}
 export const StoryReader = ({story}) => {
     const router = useRouter()
-
+    const {token, userId} = useAuthToken()
+    const {storyId} = router.query
     // Loading state
     if (router.isFallback) {
     return (
@@ -104,6 +111,13 @@ export const StoryReader = ({story}) => {
                     <Separator my="3" size="4" />
 
                     <SectionList sections={story.sections} />
+                    {story && story.author.id === userId ? 
+                    <>
+                        <Button onClick={()=>{handleDelete(token, storyId)}}>DELETE</Button>
+                        <Button onClick={()=>{router.push(`/office/stories/${story.id}/edit`)}}>EDIT</Button>
+                    </> 
+                    : ""}
+                    
                 </Box>
             </Flex>
 
@@ -111,8 +125,8 @@ export const StoryReader = ({story}) => {
             
             <ScrollArea type="always" scrollbars="vertical" style={{height: '100vh'}} >
                 <Box mx="5">
-                    {story.sections && (
-                        story.sections.map((section, index) => (
+                    {story?.sections && (
+                        story?.sections.map((section, index) => (
                             <Box key={`story-section-box-${index}`}>
                                 <ReactMarkdown remarkPlugins={[remarkGfm]}>
                                     {section.content}
