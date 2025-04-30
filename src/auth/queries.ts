@@ -10,7 +10,6 @@ import { useState } from 'react';
 // Custom hook to get and set token from localStorage
 export function useAuthToken() {
   const queryClient = useQueryClient();
-  const [userIdState, setUserIdState] = useState("")
   
   // Get token from localStorage
   const { data: token, isLoading: isLoading } = useQuery({
@@ -29,7 +28,6 @@ export function useAuthToken() {
     },
     staleTime: Infinity,
     gcTime: Infinity,
-    enabled: !!userIdState
   })
   
   // Update token in both cache and localStorage
@@ -72,12 +70,13 @@ export function useLogin() {
   // Logout mutation
   export function useLogout() {
     const queryClient = useQueryClient();
-    const { setToken } = useAuthToken();
+    const { setToken, setUserId } = useAuthToken();
     const router = useRouter();
     
     return useMutation({
       mutationFn:  () => {
         setToken(null);
+        setUserId(null)
         queryClient.removeQueries({ queryKey: ['token'] });
         queryClient.removeQueries({ queryKey: ['userId'] });
       },
