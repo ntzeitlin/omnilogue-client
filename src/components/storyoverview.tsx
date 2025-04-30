@@ -54,7 +54,7 @@ export const StoryOverviewCard: React.FC<StoryOverviewCardProps> = ({story}) => 
     // Toggle between button styles
 
     const isOnBookshelf = () => {
-      return bookshelf?.some(story => story.story.id === id)
+      return bookshelf?.some(story => story?.story.id === id)
     }
     
     const toggleBookshelfMutation = useMutation({
@@ -77,10 +77,20 @@ export const StoryOverviewCard: React.FC<StoryOverviewCardProps> = ({story}) => 
           return data
         }
 
-        // if already on bookshelf, run delete 
+        // if already on bookshelf, run delete instead
+        const response = await fetch(`http://localhost:8000/bookshelves/${id}`,{
+          method: 'DELETE',
+          headers: {
+            Authorization: `Token ${token}`
+          }
+        })
 
-        
+        if (!response.ok) {
+          throw new Error('Failed to remove from bookshelf')
+        } 
 
+        const data = await response.json()
+        return data        
       },
       onSettled: () => {
         queryClient.invalidateQueries({queryKey: ['bookshelf', token]})
@@ -89,6 +99,10 @@ export const StoryOverviewCard: React.FC<StoryOverviewCardProps> = ({story}) => 
 
     if (!is_public){
         return ""
+    }
+
+    if (!story) {
+      return "Loading..."
     }
 
     // NOTE: Fix formatting for cards
@@ -110,15 +124,15 @@ export const StoryOverviewCard: React.FC<StoryOverviewCardProps> = ({story}) => 
                         {author?.first_name} {author?.last_name}
                     </Flex>
                     <Flex align="center">
-                        {category.name}
+                        {category?.name}
                     </Flex>
                     <Flex align="center">
-                        {story_tags.map(story_tag => `"${story_tag.tag.name}", `)}
+                        {story_tags?.map(story_tag => `"${story_tag.tag.name}", `)}
                     </Flex>
                     <Flex align="center">
                        Average Rating: {average_rating || "No Reviews"}
                     </Flex>
-                    {isOnBookshelf() ? "Already there" : <Button onClick={()=> {toggleBookshelfMutation.mutate()}}>Add to Bookshelf</Button> }
+                    {isOnBookshelf() ? <Button onClick={()=> {toggleBookshelfMutation.mutate()}}>Remove from Bookshelf</Button> : <Button onClick={()=> {toggleBookshelfMutation.mutate()}}>Add to Bookshelf</Button> }
                     
                 </Flex>
             </Card>
