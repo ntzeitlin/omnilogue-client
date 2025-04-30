@@ -111,7 +111,7 @@ export const StoryReader = ({story}) => {
                     <Separator my="3" size="4" />
 
                     <SectionList sections={story.sections} />
-                    {story && story.author.id === userId ? 
+                    {story && parseInt(story.author.id) === parseInt(userId) ? 
                     <>
                         <Button onClick={()=>{handleDelete(token, storyId)}}>DELETE</Button>
                         <Button onClick={()=>{router.push(`/office/stories/${story.id}/edit`)}}>EDIT</Button>
