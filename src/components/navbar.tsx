@@ -17,7 +17,7 @@ export const NavBar = () => {
                     <Link href="/library">Library</Link>
                 </TabNav.Link>
                 <TabNav.Link asChild active={router.pathname === "/office"}>
-                    <Link href="/">Office</Link>
+                    <Link href="/office">Office</Link>
                 </TabNav.Link>
                 {/* <TabNav.Link asChild active={router.pathname === "/profile"}>
                     <Link href="/">Profile</Link>
