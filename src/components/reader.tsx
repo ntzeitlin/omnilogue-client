@@ -55,15 +55,16 @@ const SectionList = ({sections}) => {
     )
 }
 
-const handleDelete = (token, storyId) => {
-    deleteStory(token, storyId)
-}
 
 //URL: /stories/{story_id}/read/{section_id}
 export const StoryReader = ({story}) => {
     const router = useRouter()
     const {token, userId} = useAuthToken()
     const {storyId} = router.query
+
+    const handleDelete = (token, storyId) => {
+        deleteStory(token, storyId).then(()=> {router.push('/library/')})
+    }
     // Loading state
     if (router.isFallback) {
     return (
