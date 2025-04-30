@@ -12,7 +12,8 @@ export const SideBar = () => {
         queryKey: ["bookshelf", token],
         queryFn: () => {
             return getBookshelf(token)
-        }
+        },
+        placeholderData: []
     })
 
     return (
@@ -30,10 +31,10 @@ export const SideBar = () => {
         </Heading>
         <Separator size="4" mb="2" />
 
-            {bookshelfStories && bookshelfStories.map((story) => { return (
+            {bookshelfStories && bookshelfStories?.map((story) => { return (
        <Box key={story.id} px="3" py="2" style={{border: '2px solid white', borderRadius: "6px", background: "", opacity: 0.7}}>
         <Flex direction="column" gap="3">
-                <Link href={`/library/stories/${story.story.id}`}>{story.story.title}</Link>
+                <Link href={`/library/stories/${story?.story.id}`}>{story.story.title}</Link>
                 
         </Flex>
        </Box>
