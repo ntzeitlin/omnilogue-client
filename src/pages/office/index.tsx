@@ -9,7 +9,7 @@ export default function Office() {
         <>THIS IS OFFICE
         <Button
         onClick={()=>{
-            router.push('office/new-story')
+            router.push('office/stories/new')
         }}>CREATE A NEW STORY</Button>
         </>
     )

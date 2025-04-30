@@ -71,6 +71,11 @@ export default function NewStory() {
                     }}
                 />
 
+                {/* version 1 story handling:
+                    - TextArea for Sections / Chapters
+                    - Button to add new Section -> generates new TextArea
+                */}
+
             </Flex>
         </form>
     </Flex>
