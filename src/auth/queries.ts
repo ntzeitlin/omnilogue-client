@@ -2,12 +2,10 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { loginUser, registerUser } from '../data/auth';
 import { useRouter } from 'next/router';
+import { useCallback, useEffect, useState } from 'react';
 
 
-// Key constants for query management
-export const AUTH_KEYS = {
-  token: ['token']
-};
+
 
 // Custom hook to get and set token from localStorage
 export function useAuthToken() {
@@ -15,7 +13,7 @@ export function useAuthToken() {
   
   // Get token from cache or localStorage
   const { data: token, isLoading: isLoading } = useQuery({
-    queryKey: AUTH_KEYS.token,
+    queryKey: ['token'],
     queryFn: () => {
       if (typeof window === 'undefined') return null;
       return localStorage.getItem('token') || null
@@ -31,7 +29,7 @@ export function useAuthToken() {
     } else {
       localStorage.removeItem('token');
     }
-    queryClient.setQueryData(AUTH_KEYS.token, newToken);
+    queryClient.setQueryData(['token'], newToken);
   };
   
   return { token, setToken, isLoading };
