@@ -107,7 +107,7 @@ export const StoryOverviewCard: React.FC<StoryOverviewCardProps> = ({story}) => 
 
     // NOTE: Fix formatting for cards
     return (
-        <Box>
+        // <Box>
             <Card>
                 <Flex gap="4" justify="center" align="center"> 
                     <Flex direction="column" align="center">
@@ -136,6 +136,6 @@ export const StoryOverviewCard: React.FC<StoryOverviewCardProps> = ({story}) => 
                     
                 </Flex>
             </Card>
-        </Box>
+        // </Box>
     )
 }
