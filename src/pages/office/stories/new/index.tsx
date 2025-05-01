@@ -22,6 +22,20 @@ export default function NewStory() {
     })
     
     
+    
+    const [sectionCount, setSectionCount] = useState(0)
+    const [sectionArray, setSectionArray] = useState([])
+    
+    const [story, setStory] = useState({
+        title: "",
+        subtitle: "",
+        description: "",
+        excerpt: "",
+        is_public: false,
+        category: "",
+        content: []
+    })
+    
     const sectionComponent = (index) => {
         return <TextArea
         key={`section-${index}`}
@@ -30,25 +44,12 @@ export default function NewStory() {
         style={{minHeight: '200px'}}
         onChange={(event) => {
             const copy = {...story}
-            copy.content[index] = event.target.value
+            copy.content[index] = {"title": "test title", "content": event.target.value}
             setStory(copy)
         }}
         />
     }
-    
-    const [sectionCount, setSectionCount] = useState(0)
-    const [sectionArray, setSectionArray] = useState([])
-
-    const [story, setStory] = useState({
-        title: "",
-        subtitle: "",
-        description: "",
-        excerpt: "",
-        is_public: false,
-        category: "",
-        content: {}
-    })
-    
+   
     const storySubmissionMutation = useMutation({
         mutationFn: async () => {
             const response = await fetch("http://localhost:8000/stories", {
@@ -77,7 +78,7 @@ export default function NewStory() {
     }
 
     const handleAddSection = () => {
-        const newSection = sectionComponent(sectionCount)
+        const newSection = sectionComponent(sectionCount - 1)
         setSectionArray(prev => [...prev, newSection])
     }
 
