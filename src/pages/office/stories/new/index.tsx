@@ -4,12 +4,40 @@ import { getCategories } from "@/data/categories";
 import { Button, Card, Flex, Select, Text, TextArea, TextField } from "@radix-ui/themes"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function NewStory() {
     const {token} = useAuthToken()
     const queryClient = useQueryClient()
     const router = useRouter()
+
+    
+    
+    const {data: categories, isLoading} = useQuery({
+        queryKey: ['categories'],
+        queryFn: async () => {
+            return await getCategories(token)
+        },
+        enabled: !!token
+    })
+    
+    
+    const sectionComponent = (index) => {
+        return <TextArea
+        key={`section-${index}`}
+        placeholder="Story Content"
+        value={story.content[index]}
+        style={{minHeight: '200px'}}
+        onChange={(event) => {
+            const copy = {...story}
+            copy.content[index] = event.target.value
+            setStory(copy)
+        }}
+        />
+    }
+    
+    const [sectionCount, setSectionCount] = useState(0)
+    const [sectionArray, setSectionArray] = useState([])
 
     const [story, setStory] = useState({
         title: "",
@@ -18,17 +46,9 @@ export default function NewStory() {
         excerpt: "",
         is_public: false,
         category: "",
-        content: ""
+        content: {}
     })
-
-    const {data: categories, isLoading} = useQuery({
-        queryKey: ['categories'],
-        queryFn: async () => {
-            return await getCategories(token)
-        },
-        enabled: !!token
-    })
-
+    
     const storySubmissionMutation = useMutation({
         mutationFn: async () => {
             const response = await fetch("http://localhost:8000/stories", {
@@ -55,6 +75,22 @@ export default function NewStory() {
         storySubmissionMutation.mutate()
         router.push('/office')
     }
+
+    const handleAddSection = () => {
+        const newSection = sectionComponent(sectionCount)
+        setSectionArray(prev => [...prev, newSection])
+    }
+
+    useEffect(() => {
+        if (sectionCount > 0){
+            handleAddSection()
+        }
+    }, [sectionCount])
+
+
+
+
+   
 
     return (
     <Card size="2" m="2" style={{maxWidth: '500px', margin: '0 auto'}}>
@@ -141,7 +177,7 @@ export default function NewStory() {
 
                 <Flex direction="column" gap="1">
                     <Text as="label" htmlFor="storycontent" size="2" weight="medium">Story Content:</Text>
-                        <TextArea
+                        {/* <TextArea
             placeholder="Story Content"
             value={story.content}
             style={{minHeight: '200px'}}
@@ -150,7 +186,25 @@ export default function NewStory() {
                 copyStory.content = event.target.value
                 setStory(copyStory)
             }}
-        />  
+                />   */}
+                {sectionArray.map((section) => {return (
+                //     <TextArea
+                //     key={section}
+                //     placeholder="Story Content"
+                //     value={story.content}
+                //     style={{minHeight: '200px', margin: '10px 0 10px 0'}}
+                //     onChange={(event) => {
+                //         const copyStory = {...story}
+                //         copyStory.content = event.target.value
+                //         setStory(copyStory)
+                //     }}
+                // /> 
+                section
+                )})}
+                <Button onClick={(e)=>{
+                    e.preventDefault()
+                    setSectionCount(prev => prev + 1)
+                }}>Add Section</Button>
                 </Flex>
                 <Button type="submit">Submit Story</Button>
             </Flex>
