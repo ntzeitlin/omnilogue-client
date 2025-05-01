@@ -64,6 +64,7 @@ export default function EditStory() {
     const handleSubmit = (e) => {
         e.preventDefault();
         storySubmissionMutation.mutate()
+        router.push(`/library`)
     }
 
     return (
@@ -159,7 +160,7 @@ export default function EditStory() {
                             style={{minHeight: '200px'}}
                             onChange={(event) => {
                                 const copy = {...story}
-                                copy.content[index] = {"title": sectionObject.title, "content": event.target.value}
+                                copy.content[index].content = event.target.value
                                 setStory(copy)
                             }}
                         />  
