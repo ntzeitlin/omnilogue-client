@@ -69,7 +69,7 @@ export default function EditStory() {
 
     return (
     <Card size="2" m="2" style={{maxWidth: '500px', margin: '0 auto'}}>
-    <Flex direction="column" gap="4" style={{margin: '0, auto', maxWidth: '400px'}}>
+    <Flex direction="column" gap="4" style={{margin: '0, auto', maxWidth: '500px'}}>
         <Text size="5" weight="bold">Create a Story</Text>
         <form onSubmit={handleSubmit}>
             <Flex direction="column" gap="3">
@@ -151,6 +151,7 @@ export default function EditStory() {
                     <Text as="label" htmlFor="storycontent" size="2" weight="medium">Story Content:</Text>
                         {story?.content.map((sectionObject, index) => {return (
                             <TextArea
+                            mb="2"
                             key={sectionObject.id}
                             placeholder="Story Content"
                             value={story.content[index].content}

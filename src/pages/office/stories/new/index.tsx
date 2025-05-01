@@ -95,7 +95,7 @@ export default function NewStory() {
 
     return (
     <Card size="2" m="2" style={{maxWidth: '500px', margin: '0 auto'}}>
-    <Flex direction="column" gap="4" style={{margin: '0, auto', maxWidth: '400px'}}>
+    <Flex direction="column" gap="4" style={{margin: '0, auto', maxWidth: '500px'}}>
         <Text size="5" weight="bold">Create a Story</Text>
         <form onSubmit={handleSubmit}>
             <Flex direction="column" gap="3">
@@ -176,7 +176,7 @@ export default function NewStory() {
                     - Upload Zip file of markdown files.
                 */}
 
-                <Flex direction="column" gap="1">
+                <Flex direction="column" gap="2">
                     <Text as="label" htmlFor="storycontent" size="2" weight="medium">Story Content:</Text>
                        
                 {sectionArray.map((section) => {return (
