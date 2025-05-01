@@ -140,14 +140,11 @@ export default function EditStory() {
                 />
 
 
-                {/* version 1 story handling:
-                    - TextArea for Sections / Chapters
+                {/* 
+                    NOTE:
+                    Users can currently edit existing sections but cannot add new sections to the story.
 
-                    Version 2:
-                    - Button to add new Section -> generates new TextArea
-
-                    Version 3: 
-                    - Upload Zip file of markdown files.
+                    This will be added in later versions.
                 */}
 
                 <Flex direction="column" gap="1">
@@ -165,17 +162,6 @@ export default function EditStory() {
                             }}
                         />  
                         )})}
-                        
-                        {/* <TextArea
-            placeholder="Story Content"
-            value={story.content}
-            style={{minHeight: '200px'}}
-            onChange={(event) => {
-                const copyStory = {...story}
-                copyStory.content = event.target.value
-                setStory(copyStory)
-            }}
-        />   */}
                 </Flex>
                 <Button type="submit">Submit Story</Button>
             </Flex>

@@ -178,28 +178,8 @@ export default function NewStory() {
 
                 <Flex direction="column" gap="1">
                     <Text as="label" htmlFor="storycontent" size="2" weight="medium">Story Content:</Text>
-                        {/* <TextArea
-            placeholder="Story Content"
-            value={story.content}
-            style={{minHeight: '200px'}}
-            onChange={(event) => {
-                const copyStory = {...story}
-                copyStory.content = event.target.value
-                setStory(copyStory)
-            }}
-                />   */}
+                       
                 {sectionArray.map((section) => {return (
-                //     <TextArea
-                //     key={section}
-                //     placeholder="Story Content"
-                //     value={story.content}
-                //     style={{minHeight: '200px', margin: '10px 0 10px 0'}}
-                //     onChange={(event) => {
-                //         const copyStory = {...story}
-                //         copyStory.content = event.target.value
-                //         setStory(copyStory)
-                //     }}
-                // /> 
                 section
                 )})}
                 <Button onClick={(e)=>{
