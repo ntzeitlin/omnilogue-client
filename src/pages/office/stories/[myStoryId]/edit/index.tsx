@@ -37,7 +37,7 @@ export default function EditStory() {
         excerpt: myStory.excerpt ||  "",
         is_public: myStory.is_public || false,
         category: myStory.category?.name || "",
-        content: myStory.sections[0].content || ""
+        content: [...myStory.sections]
     })
 
     const storySubmissionMutation = useMutation({
@@ -151,7 +151,21 @@ export default function EditStory() {
 
                 <Flex direction="column" gap="1">
                     <Text as="label" htmlFor="storycontent" size="2" weight="medium">Story Content:</Text>
-                        <TextArea
+                        {story?.content.map((sectionObject, index) => {return (
+                            <TextArea
+                            key={sectionObject.id}
+                            placeholder="Story Content"
+                            value={story.content[index].content}
+                            style={{minHeight: '200px'}}
+                            onChange={(event) => {
+                                const copy = {...story}
+                                copy.content[index] = {"title": sectionObject.title, "content": event.target.value}
+                                setStory(copy)
+                            }}
+                        />  
+                        )})}
+                        
+                        {/* <TextArea
             placeholder="Story Content"
             value={story.content}
             style={{minHeight: '200px'}}
@@ -160,7 +174,7 @@ export default function EditStory() {
                 copyStory.content = event.target.value
                 setStory(copyStory)
             }}
-        />  
+        />   */}
                 </Flex>
                 <Button type="submit">Submit Story</Button>
             </Flex>
