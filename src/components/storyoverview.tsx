@@ -111,7 +111,7 @@ export const StoryOverviewCard: React.FC<StoryOverviewCardProps> = ({story}) => 
             <Card>
                 <Flex gap="4" justify="center" align="center"> 
                     <Flex direction="column" align="center">
-                        <Link href={`/library/stories/${id}/read/1`}>
+                        <Link href={`/library/stories/${id}/read/${story.start_section ? story.start_section.id : 1}`}>
                           <Text>
                           {title} 
                           </Text>
