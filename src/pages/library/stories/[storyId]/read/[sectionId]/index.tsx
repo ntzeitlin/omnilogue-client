@@ -7,7 +7,7 @@ import { useRouter } from "next/router"
 
 export default function ReaderView() {
     const router = useRouter()
-    const {storyId, sectionId} = router.query
+    const {storyId} = router.query
 
     const {token} = useAuthToken()
 
