@@ -18,26 +18,25 @@ export const SideBar = () => {
 
     return (
         <Card>
+            <Flex 
+            direction="column"
+            gap="3"
+            style={{
+                height: '100vh',
+                width: '250px',
+            }}>
+                <Heading align="center" mt="3">
+                    Bookshelf
+                </Heading>
+                <Separator size="4" mb="2" />
 
-       <Flex 
-       direction="column"
-       gap="3"
-       style={{
-        height: '100vh',
-        width: '250px',
-       }}>
-        <Heading align="center" mt="3">
-            Bookshelf
-        </Heading>
-        <Separator size="4" mb="2" />
+                    {bookshelfStories && bookshelfStories?.map((story) => { return (
+            <Card key={story.id} mr="1">
+                    <Link href={`/library/stories/${story?.story.id}`}>{story.story.title}</Link>        
+            </Card>
+                        )})}
 
-            {bookshelfStories && bookshelfStories?.map((story) => { return (
-       <Card key={story.id} px="3" py="2" mr="1">
-            <Link href={`/library/stories/${story?.story.id}`}>{story.story.title}</Link>        
-       </Card>
-                )})}
-
-       </Flex>
+            </Flex>
         </Card>
     )
 }
