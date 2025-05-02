@@ -15,7 +15,8 @@ export default function ReaderView() {
         queryKey: ['story_detail', storyId],
         queryFn: async () => {
             return await getStoryDetail(token, storyId)
-        }
+        },
+        enabled: !!storyId
     })
 
     return <StoryReader story={storyDetail} />
