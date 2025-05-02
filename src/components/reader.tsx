@@ -112,10 +112,14 @@ export const StoryReader = ({story}) => {
                     <Separator my="3" size="4" />
 
                     <SectionList sections={story.sections} />
+
+                    <Separator my="3" size="4" />
                     {story && parseInt(story.author.id) === parseInt(userId) ? 
                     <>
-                        <Button onClick={()=>{handleDelete(token, storyId)}}>DELETE</Button>
+                        <Flex gap="2">
                         <Button onClick={()=>{router.push(`/office/stories/${story.id}/edit`)}}>EDIT</Button>
+                        <Button color="red" onClick={()=>{handleDelete(token, storyId)}}>DELETE</Button>
+                        </Flex>
                     </> 
                     : ""}
                     
@@ -128,7 +132,7 @@ export const StoryReader = ({story}) => {
                 <Box mx="5">
                     {story?.sections && (
                         story?.sections.map((section, index) => (
-                            <Box key={`story-section-box-${index}`}>
+                            <Box key={`story-section-box-${index}`} width="700px">
                                 <ReactMarkdown remarkPlugins={[remarkGfm]}>
                                     {section.content}
                                 </ReactMarkdown>
