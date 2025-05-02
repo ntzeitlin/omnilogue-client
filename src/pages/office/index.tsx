@@ -1,4 +1,5 @@
 import { useAuthToken } from "@/auth/queries"
+import { DeskSideBar } from "@/components/deskSidebar"
 import { NavBar } from "@/components/navbar"
 import { StoryOverviewCard } from "@/components/storyoverview"
 import { getAllStories } from "@/data/stories"
@@ -24,7 +25,7 @@ export default function Office() {
     <Flex justify="center">
     <Box maxWidth="800px">
         <ScrollArea type="auto" scrollbars="vertical" style={{height: '100vh'}}>
-        <Flex direction="column" gap="2" p="3">
+        <Flex direction="column" gap="2" p="0px 0px 0px 10px">
           {!isLoading && myStories?.map(story => {
             return <StoryOverviewCard key={story.id} story={story} />
           })}
@@ -40,7 +41,10 @@ Office.getLayout = function getLayout(page)
 {   return (
     <>
         <NavBar />
+        <Flex>
+        <DeskSideBar />
         {page}
+        </Flex>
     </>
 )
 }
