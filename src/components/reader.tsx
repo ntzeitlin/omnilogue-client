@@ -42,48 +42,50 @@ const StoryMetaData = ({story}) => {
     )
 }
 
-const SectionList = ({sections}) => {
-    return (
-        <>
-        <Heading size="5">Sections:</Heading>
-        {sections?.map((section, index) => (
-            <Box py="2" px="3" my="1" key={`story-section-${index}`}>
-                <Text size="2">{section.title}</Text>
-            </Box>
-        ))}
-        </>
-    )
-}
 
 
 //URL: /stories/{story_id}/read/{section_id}
 export const StoryReader = ({story}) => {
     const router = useRouter()
     const {token, userId} = useAuthToken()
-    const {storyId} = router.query
-
+    const {storyId, sectionId} = router.query
+    
     const handleDelete = (token, storyId) => {
         deleteStory(token, storyId).then(()=> {router.push('/library/')})
     }
     // Loading state
     if (router.isFallback) {
-    return (
-        <Flex justify="center" align="center" height="100vh">
+        return (
+            <Flex justify="center" align="center" height="100vh">
             <div className="loading-spinner">Loading...</div>
         </Flex>
     );
-    }
+}
 
+    const SectionList = ({sections}) => {
+        return (
+            <>
+            <Heading size="5">Sections:</Heading>
+            {sections?.map((section, index) => (
+                <Box py="2" px="3" my="1" key={`story-section-${index}`}>
+                    <Link href={`/library/stories/${storyId}/read/${section.id}`}>
+                    <Text size="2">{section.title}</Text>
+                    </Link>
+                </Box>
+            ))}
+            </>
+        )
+    }
     // Story not found state
     if (!story) {
-    return (
-        <Flex direction="column" justify="center" align="center" height="100vh" gap="3">
-        <Heading size="4">Story Not Found</Heading>
-        <Button asChild>
-            <Link href="/books">Return to Library</Link>
-        </Button>
-        </Flex>
-    );
+        return (
+            <Flex direction="column" justify="center" align="center" height="100vh" gap="3">
+            <Heading size="4">Story Not Found</Heading>
+            <Button asChild>
+                <Link href="/books">Return to Library</Link>
+            </Button>
+            </Flex>
+        );
     }
 
     return (
@@ -114,7 +116,7 @@ export const StoryReader = ({story}) => {
                     <SectionList sections={story.sections} />
 
                     <Separator my="3" size="4" />
-                    {story && parseInt(story.author.id) === parseInt(userId) ? 
+                    {story && parseInt(story?.author?.id) === parseInt(userId) ? 
                     <>
                         <Flex gap="2">
                         <Button onClick={()=>{router.push(`/office/stories/${story.id}/edit`)}}>EDIT</Button>
@@ -131,7 +133,7 @@ export const StoryReader = ({story}) => {
             <ScrollArea type="always" scrollbars="vertical" style={{height: '100vh'}} >
                 <Box mx="5">
                     {story?.sections && (
-                        story?.sections.map((section, index) => (
+                        story?.sections.filter(section => parseInt(section.id) === parseInt(sectionId)).map((section, index) => (
                             <Box key={`story-section-box-${index}`} width="700px">
                                 <ReactMarkdown remarkPlugins={[remarkGfm]}>
                                     {section.content}
