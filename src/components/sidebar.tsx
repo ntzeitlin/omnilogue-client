@@ -17,10 +17,11 @@ export const SideBar = () => {
     })
 
     return (
-        <Card>
+        <Card style={{width: '22em'}}>
             <Flex 
             direction="column"
             gap="3"
+            px="5"
             style={{
                 height: '100vh',
                 width: '250px',

@@ -22,17 +22,13 @@ export default function Office() {
 
     return (
     <>
-    <Flex justify="center">
-    <Box maxWidth="800px">
         <ScrollArea type="auto" scrollbars="vertical" style={{height: '100vh'}}>
-        <Flex direction="column" gap="2" p="0px 0px 0px 10px">
+        <Flex direction="column" gap="2" px="3">
           {!isLoading && myStories?.map(story => {
             return <StoryOverviewCard key={story.id} story={story} />
           })}
         </Flex>
         </ScrollArea>
-    </Box>
-    </Flex>
     </>
     )
 }
