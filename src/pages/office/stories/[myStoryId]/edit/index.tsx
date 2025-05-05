@@ -32,13 +32,13 @@ export default function EditStory() {
 
 
     const [story, setStory] = useState({
-        title: myStory.title || "",
-        subtitle: myStory.subtitle || "",
-        description: myStory.description || "",
-        excerpt: myStory.excerpt ||  "",
-        is_public: myStory.is_public || false,
-        category: myStory.category?.name || "",
-        content: [...myStory.sections]
+        title: myStory?.title || "",
+        subtitle: myStory?.subtitle || "",
+        description: myStory?.description || "",
+        excerpt: myStory?.excerpt ||  "",
+        is_public: myStory?.is_public || false,
+        category: myStory?.category?.name || "",
+        content: [...myStory?.sections]
     })
 
     const storySubmissionMutation = useMutation({
