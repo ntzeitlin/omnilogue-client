@@ -46,17 +46,17 @@ const HomePage = () => {
       {
         id: 1,
         title: "Begin Your Journey",
-        content: "# Welcome to Omnilogue\n\nYou've just discovered a new way to experience stories. Here, narratives aren't just read—they're *explored*.\n\nClick on **[[Discover More]]** to continue your journey."
+        content: "# Welcome to Omnilogue\nYou've just discovered a new way to experience stories. Here, narratives aren't just read—they're *explored*.\n\nClick on [[Discover More]] to continue your journey."
       },
       {
         id: 2,
         title: "Discover More",
-        content: "## The Power of Connected Stories\n\nOmnilogue brings the concept of linked knowledge to storytelling. Every **[[connection]]** can lead to new insights, unexpected twists, or deeper context.\n\nAs a reader, you can follow these paths at your own pace, creating a unique journey through each story."
+        content: "# The Power of Connected Stories\nOmnilogue brings the concept of linked knowledge to storytelling. Every [[connection]] can lead to new insights, unexpected twists, or deeper context.\n\nAs a reader, you can follow these paths at your own pace, creating a unique journey through each story."
       },
       {
         id: 3,
         title: "connection",
-        content: "### Connections: The Heart of Omnilogue\n\nIn traditional books, you might find footnotes or references. Here, those connections are seamless and dynamic.\n\nEach story can be organized in the way that makes the most sense for its narrative—chronologically, thematically, or even as a web of interconnected ideas.\n\nReady to **[[Try It Yourself]]**?"
+        content: "# Connections: The Heart of Omnilogue\nIn traditional books, you might find footnotes or references. Here, those connections are seamless and dynamic.\n\nEach story can be organized in the way that makes the most sense for its narrative—chronologically, thematically, or even as a web of interconnected ideas.\n\nReady to [[Try It Yourself]]?"
       }
     ],
     category: { name: "Guide", id: 0 },
@@ -66,7 +66,7 @@ const HomePage = () => {
     ]
   };
 
-  // Story component inspired by your StoryOverviewCard
+  // Story component inspired by StoryOverviewCard
   const StoryCard = ({ story }) => {
     return (
       <Card variant="surface" size="2" p="4">
@@ -81,8 +81,8 @@ const HomePage = () => {
           </Flex>
 
           {story.subtitle && (
-            <Text size="2" color="gray" italic>
-              "{story.subtitle}"
+            <Text size="2" color="gray" style={{fontStyle:'italic'}}>
+              {story.subtitle}
             </Text>
           )}
 
@@ -120,7 +120,7 @@ const HomePage = () => {
           </Flex>
           
           <Box mt="2">
-            <Button variant="soft" color="indigo" size="2" width="100%">
+            <Button variant="soft" color="indigo" size="2">
               Read Story
             </Button>
           </Box>
@@ -214,7 +214,6 @@ const HomePage = () => {
                 my="1" 
                 key={`story-section-${index}`}
                 style={{ 
-                  cursor: 'pointer', 
                   backgroundColor: currentSectionId === section.id ? 'var(--gray-4)' : 'transparent',
                   borderRadius: '4px'
                 }}
@@ -242,19 +241,18 @@ const HomePage = () => {
     <Container size="4">
       <Box py="6">
         {/* Hero Section */}
-        <Flex direction="column" align="center" justify="center" gap="4" py="5">
+        <Flex direction="column" align="center" justify="center" gap="4" pb="5">
           <Heading size="9" align="center">OMNILOGUE</Heading>
           <Text size="5" align="center" style={{ maxWidth: '760px' }}>
-            Where stories become explorations and reading becomes an adventure
+          Stories Beyond Boundaries
           </Text>
         </Flex>
-        
+
         <Separator size="4" my="6" />
         
         {/* How It Works Section */}
-        <Box my="8">
+        <Box my="2">
           <Heading size="6" mb="6" align="center">How Omnilogue Works</Heading>
-          
           <Grid columns={{ initial: '1', sm: '2', md: '4' }} gap="4">
             <Card variant="surface" p="4">
               <Flex direction="column" align="center" gap="2">
@@ -301,6 +299,9 @@ const HomePage = () => {
                 <Text align="center">
                   Follow authors, rate stories, and join a community of storytellers
                 </Text>
+                <Badge key={'comingsoon'} color="gray" variant="soft" radius="full" size="1">
+                    Coming Soon
+                </Badge>
               </Flex>
             </Card>
           </Grid>
@@ -326,7 +327,7 @@ const HomePage = () => {
         <Box my="8">
           <Flex justify="between" align="baseline" mb="4">
             <Heading size="6">Featured Stories</Heading>
-            <Button variant="ghost" color="gray">
+            <Button variant="ghost" color="gray" onClick={() => {router.push('/library')}}>
               <Flex gap="1" align="center">
                 <Text>Browse Library</Text>
                 <MagnifyingGlassIcon />
@@ -340,9 +341,11 @@ const HomePage = () => {
             ))}
           </Grid>
         </Box>
+
+        <Separator size="4" my="6" />
         
         {/* Call to Action */}
-        <Flex direction="column" align="center" justify="center" gap="4" py="9">
+        <Flex direction="column" align="center" justify="center" gap="4" py="5">
           <Heading size="7" align="center">Ready to Start Your Journey?</Heading>
           <Text size="4" align="center" style={{ maxWidth: '760px' }}>
             Join Omnilogue today and discover a new way to experience stories
@@ -351,6 +354,7 @@ const HomePage = () => {
             Sign Up Now
           </Button>
         </Flex>
+        
       </Box>
     </Container>
   );
