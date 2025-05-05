@@ -3,7 +3,7 @@ import { NavBar } from "@/components/navbar";
 import { SideBar } from "@/components/sidebar";
 import { StoryOverviewCard } from "@/components/storyoverview";
 import { getAllStories } from "@/data/stories";
-import { Box, Flex, ScrollArea } from "@radix-ui/themes";
+import { Box, Container, Flex, ScrollArea } from "@radix-ui/themes";
 import { useQuery } from "@tanstack/react-query";
 
 
@@ -36,7 +36,7 @@ export default function Library() {
   return (
     <>
     <ScrollArea type="auto" scrollbars="vertical" style={{height: '100vh'}}>
-        <Flex direction="column" gap="2" p="3">
+        <Flex direction="column" gap="2" px="3">
           {!isLoading && stories?.map(story => {
             return <StoryOverviewCard key={story.id} story={story} />
           })}
@@ -51,13 +51,13 @@ Library.getLayout = function getLayout(page)
   return (
     <>
     <NavBar />
-    <Flex>
-    <SideBar />
-    <Flex grow="1" p="4">
+    <Container>
+      <Flex>
+        <SideBar />
+        {page}
+      </Flex>
+    </Container>
 
-    {page}
-    </Flex>
-    </Flex>
     </>
 
   )

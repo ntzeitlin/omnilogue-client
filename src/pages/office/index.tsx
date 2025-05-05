@@ -3,7 +3,7 @@ import { DeskSideBar } from "@/components/deskSidebar"
 import { NavBar } from "@/components/navbar"
 import { StoryOverviewCard } from "@/components/storyoverview"
 import { getAllStories } from "@/data/stories"
-import { Box, Button, Flex, ScrollArea } from "@radix-ui/themes"
+import { Box, Button, Container, Flex, ScrollArea } from "@radix-ui/themes"
 import { useQuery } from "@tanstack/react-query"
 import { useRouter } from "next/router"
 
@@ -22,17 +22,13 @@ export default function Office() {
 
     return (
     <>
-    <Flex justify="center">
-    <Box maxWidth="800px">
         <ScrollArea type="auto" scrollbars="vertical" style={{height: '100vh'}}>
-        <Flex direction="column" gap="2" p="0px 0px 0px 10px">
+        <Flex direction="column" gap="2" px="3">
           {!isLoading && myStories?.map(story => {
             return <StoryOverviewCard key={story.id} story={story} />
           })}
         </Flex>
         </ScrollArea>
-    </Box>
-    </Flex>
     </>
     )
 }
@@ -41,10 +37,12 @@ Office.getLayout = function getLayout(page)
 {   return (
     <>
         <NavBar />
-        <Flex>
-        <DeskSideBar />
-        {page}
-        </Flex>
+        <Container align="center">
+            <Flex>
+            <DeskSideBar />
+            {page}
+            </Flex>
+        </Container>
     </>
 )
 }
