@@ -326,7 +326,7 @@ const HomePage = () => {
         {/* Featured Stories Section */}
         <Box my="8">
           <Flex justify="between" align="baseline" mb="4">
-            <Heading size="6">Featured Stories</Heading>
+            <Heading size="6">Example Featured Stories</Heading>
             <Button variant="ghost" color="gray" onClick={() => {router.push('/library')}}>
               <Flex gap="1" align="center">
                 <Text>Browse Library</Text>

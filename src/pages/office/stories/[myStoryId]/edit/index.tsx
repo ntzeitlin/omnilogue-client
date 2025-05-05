@@ -27,8 +27,9 @@ export default function EditStory() {
         queryFn: async () => {
             return await getStoryDetail(token, myStoryId)
         },
-        enabled: !!token
+        enabled: !!myStoryId
     })
+
 
     const [story, setStory] = useState({
         title: myStory.title || "",
@@ -56,14 +57,17 @@ export default function EditStory() {
             const data = await response.json()
             return data
         },
-        onSettled: () => {
-            queryClient.invalidateQueries({queryKey: ['stories_overview']})
-        }
+        onSuccess: (data) => {
+            queryClient.setQueryData(['story_detail', myStoryId], data)
+            queryClient.invalidateQueries({queryKey: ['story_detail', myStoryId]})
+                  
+        },
+        onError: (error) => {console.log('Error updating story', error)}
     })
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        storySubmissionMutation.mutate()
+        await storySubmissionMutation.mutate()
         router.push(`/library`)
     }
 
