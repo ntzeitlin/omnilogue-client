@@ -2,7 +2,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { loginUser, registerUser } from '../data/auth';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useState } from 'react';
 
 
 
@@ -11,16 +10,24 @@ import { useCallback, useEffect, useState } from 'react';
 export function useAuthToken() {
   const queryClient = useQueryClient();
   
-  // Get token from cache or localStorage
+  // Get token from localStorage
   const { data: token, isLoading: isLoading } = useQuery({
     queryKey: ['token'],
     queryFn: () => {
-      if (typeof window === 'undefined') return null;
       return localStorage.getItem('token') || null
     },
     staleTime: Infinity, // Token doesn't need refetching
     gcTime: Infinity, // Keep token in cache
   });
+
+  const {data: userId} = useQuery({
+    queryKey: ['userId'],
+    queryFn: () => {
+      return localStorage.getItem('userId') || null
+    },
+    staleTime: Infinity,
+    gcTime: Infinity,
+  })
   
   // Update token in both cache and localStorage
   const setToken = (newToken) => {    
@@ -31,19 +38,30 @@ export function useAuthToken() {
     }
     queryClient.setQueryData(['token'], newToken);
   };
-  
-  return { token, setToken, isLoading };
+
+  const setUserId = (newId) => {
+    if (newId) {
+      localStorage.setItem('userId', newId)
+    } else {
+      localStorage.removeItem('userId') 
+    }
+    queryClient.setQueryData(['userId'], newId)
+  }
+
+
+  return { token, setToken, userId, setUserId, isLoading };
 }
 
 
 // Login mutation
 export function useLogin() {
-    const { setToken } = useAuthToken();
+    const { setToken, setUserId } = useAuthToken();
     
     return useMutation({
       mutationFn: (credentials) => loginUser(credentials),
       onSuccess: (data) => {
-        setToken(data.token);
+        setToken(data.token)
+        setUserId(data.userId)
       },
     });
   }
@@ -51,13 +69,15 @@ export function useLogin() {
   // Logout mutation
   export function useLogout() {
     const queryClient = useQueryClient();
-    const { setToken } = useAuthToken();
+    const { setToken, setUserId } = useAuthToken();
     const router = useRouter();
     
     return useMutation({
       mutationFn:  () => {
         setToken(null);
-        queryClient.removeQueries({ queryKey: AUTH_KEYS.token });
+        setUserId(null)
+        queryClient.removeQueries({ queryKey: ['token'] });
+        queryClient.removeQueries({ queryKey: ['userId'] });
       },
       onSuccess: () => {
         router.push('/login');

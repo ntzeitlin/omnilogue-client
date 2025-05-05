@@ -97,9 +97,9 @@ export const StoryOverviewCard: React.FC<StoryOverviewCardProps> = ({story}) => 
       }
     })
 
-    if (!is_public){
-        return ""
-    }
+    // if (!is_public){
+    //     return ""
+    // }
 
     if (!story) {
       return "Loading..."
@@ -107,11 +107,11 @@ export const StoryOverviewCard: React.FC<StoryOverviewCardProps> = ({story}) => 
 
     // NOTE: Fix formatting for cards
     return (
-        <Box>
+        // <Box>
             <Card>
                 <Flex gap="4" justify="center" align="center"> 
                     <Flex direction="column" align="center">
-                        <Link href={`/library/stories/${id}`}>
+                        <Link href={`/library/stories/${id}/read/${story.start_section ? story.start_section.id : 1}`}>
                           <Text>
                           {title} 
                           </Text>
@@ -136,6 +136,6 @@ export const StoryOverviewCard: React.FC<StoryOverviewCardProps> = ({story}) => 
                     
                 </Flex>
             </Card>
-        </Box>
+        // </Box>
     )
 }

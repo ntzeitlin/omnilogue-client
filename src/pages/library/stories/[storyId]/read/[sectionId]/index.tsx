@@ -7,7 +7,7 @@ import { useRouter } from "next/router"
 
 export default function ReaderView() {
     const router = useRouter()
-    const {storyId, sectionId} = router.query
+    const {storyId} = router.query
 
     const {token} = useAuthToken()
 
@@ -15,7 +15,8 @@ export default function ReaderView() {
         queryKey: ['story_detail', storyId],
         queryFn: async () => {
             return await getStoryDetail(token, storyId)
-        }
+        },
+        enabled: !!storyId
     })
 
     return <StoryReader story={storyDetail} />

@@ -35,3 +35,14 @@ export const getStoryDetail = async (token, storyId) => {
     const data = await response.json()
     return data
 }
+
+export const deleteStory = async (token, storyId) => {
+    const response = await fetch(`${API_URL}/stories/${storyId}`, {
+        method: "DELETE",
+        headers: {
+            Authorization: `Token ${token}`
+        }
+    })
+    const data = await response.json()
+    return data
+}

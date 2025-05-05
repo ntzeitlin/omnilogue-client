@@ -9,7 +9,7 @@ export const NavBar = () => {
 
     return (
         <>
-            <TabNav.Root justify="center">
+            <TabNav.Root justify="center" mb="3">
                 <TabNav.Link asChild active={router.pathname === "/"}>
                     <Link href="/">Home</Link>
                 </TabNav.Link>
@@ -17,13 +17,13 @@ export const NavBar = () => {
                     <Link href="/library">Library</Link>
                 </TabNav.Link>
                 <TabNav.Link asChild active={router.pathname === "/office"}>
-                    <Link href="/">Office</Link>
+                    <Link href="/office">Office</Link>
                 </TabNav.Link>
                 {/* <TabNav.Link asChild active={router.pathname === "/profile"}>
                     <Link href="/">Profile</Link>
                 </TabNav.Link> */}
                 <TabNav.Link asChild active={router.pathname === ""}>
-                    <Link href="/" onClick={()=> {logout()}}>Logout</Link>
+                    <Link href="/login" onClick={()=> {logout()}}>Logout</Link>
                 </TabNav.Link>
             </TabNav.Root>
         </>
