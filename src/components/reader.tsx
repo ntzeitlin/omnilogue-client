@@ -1,6 +1,6 @@
 import { useAuthToken } from "@/auth/queries"
 import { deleteStory } from "@/data/stories"
-import { Badge, Box, Button, Card, Container, Flex, Heading, ScrollArea, Separator, Text } from "@radix-ui/themes"
+import { AlertDialog, Badge, Box, Button, Card, Container, Flex, Heading, ScrollArea, Separator, Text } from "@radix-ui/themes"
 import Head from "next/head"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -123,7 +123,28 @@ export const StoryReader = ({story}) => {
                     <>
                         <Flex gap="2" justify="center">
                         <Button onClick={()=>{router.push(`/office/stories/${story.id}/edit`)}}>EDIT</Button>
-                        <Button color="red" onClick={()=>{handleDelete(token, storyId)}}>DELETE</Button>
+                        <AlertDialog.Root>
+                            <AlertDialog.Trigger>
+                                <Button color="red">Delete</Button>
+                            </AlertDialog.Trigger>
+                            <AlertDialog.Content maxWidth="450px">
+                                <AlertDialog.Title>Delete Story</AlertDialog.Title>
+                                <AlertDialog.Description size="2">
+                                    Are you sure? This story will no longer be accessible and any related information will also be deleted.
+                                </AlertDialog.Description>
+
+                                <Flex gap="3" mt="4" justify="end">
+                                    <AlertDialog.Cancel>
+                                        <Button variant="soft" color="gray">
+                                            Cancel
+                                        </Button>
+                                    </AlertDialog.Cancel>
+                                    <AlertDialog.Action>
+                                        <Button color="red" onClick={()=>{handleDelete(token, storyId)}}>DELETE</Button>
+                                    </AlertDialog.Action>
+                                </Flex>
+                            </AlertDialog.Content>
+                        </AlertDialog.Root>
                         </Flex>
                     </> 
                     : ""}
