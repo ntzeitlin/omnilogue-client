@@ -24,6 +24,11 @@ As a writer, I created OMNILOGUE after discovering the potential of my Obsidian.
 
 - User Authentication: Secure login / registration system.
 
+## Tech Stack:
+- Next.js with TypeScript and Page Routing
+- Radix-UI Theme Components for Styling
+- TanStackQuery
+
 ## Getting Started:
 1. Clone the repository
 	```
