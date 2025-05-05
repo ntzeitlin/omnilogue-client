@@ -1,6 +1,6 @@
 import { useAuthToken } from "@/auth/queries"
 import { deleteStory } from "@/data/stories"
-import { Badge, Box, Button, Card, Flex, Heading, ScrollArea, Separator, Text } from "@radix-ui/themes"
+import { Badge, Box, Button, Card, Container, Flex, Heading, ScrollArea, Separator, Text } from "@radix-ui/themes"
 import Head from "next/head"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -67,7 +67,8 @@ export const StoryReader = ({story}) => {
             <>
             <Heading size="5">Sections:</Heading>
             {sections?.map((section, index) => (
-                <Box py="2" px="3" my="1" key={`story-section-${index}`}>
+                <Box py="2" px="3" my="1" key={`story-section-${index}`} style={{backgroundColor: parseInt(sectionId) === section.id ? 'var(--gray-4)' : 'transparent',
+                    borderRadius: '4px'}}>
                     <Link href={`/library/stories/${storyId}/read/${section.id}`}>
                     <Text size="2">{section.title}</Text>
                     </Link>
@@ -93,10 +94,12 @@ export const StoryReader = ({story}) => {
         <Head>
            <title>{story?.title} | OMNILOGUE</title> 
         </Head>
+        <Container>
+
         <Flex>
             {/* SIDEBAR: */}
-            <Flex direction="column" style={{height: '100vh', borderRight: '0.25px solid white'}}>
-                <Box p="3">
+            <Flex direction="column" style={{height: '100vh'}}>
+                <Box p="3" mt="5">
                     <Heading size="4" mb="1">{story.title}</Heading>
                     {story.subtitle && (
                     <Text size="1" color="gray" style={{ fontStyle: 'italic' }}>
@@ -118,7 +121,7 @@ export const StoryReader = ({story}) => {
                     <Separator my="3" size="4" />
                     {story && parseInt(story?.author?.id) === parseInt(userId) ? 
                     <>
-                        <Flex gap="2">
+                        <Flex gap="2" justify="center">
                         <Button onClick={()=>{router.push(`/office/stories/${story.id}/edit`)}}>EDIT</Button>
                         <Button color="red" onClick={()=>{handleDelete(token, storyId)}}>DELETE</Button>
                         </Flex>
@@ -145,6 +148,7 @@ export const StoryReader = ({story}) => {
             </ScrollArea>
 
         </Flex>
+        </Container>
 
         </>
     )
