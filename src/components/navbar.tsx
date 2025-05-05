@@ -1,4 +1,4 @@
-import { useLogout } from "@/auth/queries"
+import { useAuthStatus, useLogout } from "@/auth/queries"
 import { TabNav } from "@radix-ui/themes"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -6,6 +6,7 @@ import { useRouter } from "next/router"
 export const NavBar = () => {
     const router = useRouter()
     const {mutate: logout} = useLogout()
+    const {isAuthenticated} = useAuthStatus()
 
     return (
         <>
@@ -22,9 +23,9 @@ export const NavBar = () => {
                 {/* <TabNav.Link asChild active={router.pathname === "/profile"}>
                     <Link href="/">Profile</Link>
                 </TabNav.Link> */}
-                <TabNav.Link asChild active={router.pathname === ""}>
+                {isAuthenticated ? <TabNav.Link asChild active={router.pathname === ""}>
                     <Link href="/login" onClick={()=> {logout()}}>Logout</Link>
-                </TabNav.Link>
+                </TabNav.Link> : ""}
             </TabNav.Root>
         </>
     )
