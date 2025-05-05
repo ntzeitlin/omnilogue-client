@@ -120,7 +120,7 @@ const HomePage = () => {
           </Flex>
           
           <Box mt="2">
-            <Button variant="soft" color="indigo" size="2">
+            <Button variant="soft" color="indigo" size="2" disabled>
               Read Story
             </Button>
           </Box>
