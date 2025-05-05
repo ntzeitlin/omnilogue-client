@@ -34,7 +34,7 @@ export const SideBar = () => {
 
                     {bookshelfStories && bookshelfStories?.map((story) => { return (
             <Card key={story.id} mr="1">
-                    <Link href={`/library/stories/${story?.story.id}`}>{story.story.title}</Link>        
+                    <Link href={`/library/stories/${story?.story.id}/read/${story?.story?.start_section?.id}`}>{story.story.title}</Link>        
             </Card>
                         )})}
 
