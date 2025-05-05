@@ -1,6 +1,6 @@
 import { useAuthToken } from "@/auth/queries"
 import { getBookshelf } from "@/data/stories"
-import { Box, Card, Flex, Heading, Separator } from "@radix-ui/themes"
+import { Card, Flex, Heading, Separator } from "@radix-ui/themes"
 import { useQuery } from "@tanstack/react-query"
 import Link from "next/link"
 
@@ -13,7 +13,8 @@ export const SideBar = () => {
         queryFn: () => {
             return getBookshelf(token)
         },
-        placeholderData: []
+        placeholderData: [], 
+        enabled: !!token
     })
 
     return (
@@ -23,7 +24,7 @@ export const SideBar = () => {
             gap="3"
             px="5"
             style={{
-                height: '100vh',
+                height: '70vh',
                 width: '250px',
             }}>
                 <Heading align="center" mt="3">
