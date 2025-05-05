@@ -6,7 +6,7 @@ import { useRouter } from "next/router"
 export const PageWrapper = ({children}) => {
     const router = useRouter()
     const {isAuthenticated, isLoading} = useAuthStatus()
-    const authRoutes = ['/login', '/register']
+    const authRoutes = ['/login', '/register', '/']
   
     if (isLoading) {
         return <>Checking Authentication...</>
