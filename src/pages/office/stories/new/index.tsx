@@ -4,23 +4,15 @@ import { getCategories } from "@/data/categories";
 import { Button, Card, Flex, Select, Text, TextArea, TextField } from "@radix-ui/themes"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function NewStory() {
     const {token} = useAuthToken()
     const queryClient = useQueryClient()
     const router = useRouter()
 
-    const [story, setStory] = useState({
-        title: "",
-        subtitle: "",
-        description: "",
-        excerpt: "",
-        is_public: false,
-        category: "",
-        content: ""
-    })
-
+    
+    
     const {data: categories, isLoading} = useQuery({
         queryKey: ['categories'],
         queryFn: async () => {
@@ -28,7 +20,36 @@ export default function NewStory() {
         },
         enabled: !!token
     })
-
+    
+    
+    
+    const [sectionCount, setSectionCount] = useState(0)
+    const [sectionArray, setSectionArray] = useState([])
+    
+    const [story, setStory] = useState({
+        title: "",
+        subtitle: "",
+        description: "",
+        excerpt: "",
+        is_public: false,
+        category: "",
+        content: []
+    })
+    
+    const sectionComponent = (index) => {
+        return <TextArea
+        key={`section-${index}`}
+        placeholder="Story Content"
+        value={story.content[index]}
+        style={{minHeight: '200px'}}
+        onChange={(event) => {
+            const copy = {...story}
+            copy.content[index] = {"title": "test title", "content": event.target.value}
+            setStory(copy)
+        }}
+        />
+    }
+   
     const storySubmissionMutation = useMutation({
         mutationFn: async () => {
             const response = await fetch("http://localhost:8000/stories", {
@@ -56,9 +77,25 @@ export default function NewStory() {
         router.push('/office')
     }
 
+    const handleAddSection = () => {
+        const newSection = sectionComponent(sectionCount - 1)
+        setSectionArray(prev => [...prev, newSection])
+    }
+
+    useEffect(() => {
+        if (sectionCount > 0){
+            handleAddSection()
+        }
+    }, [sectionCount])
+
+
+
+
+   
+
     return (
     <Card size="2" m="2" style={{maxWidth: '500px', margin: '0 auto'}}>
-    <Flex direction="column" gap="4" style={{margin: '0, auto', maxWidth: '400px'}}>
+    <Flex direction="column" gap="4" style={{margin: '0, auto', maxWidth: '500px'}}>
         <Text size="5" weight="bold">Create a Story</Text>
         <form onSubmit={handleSubmit}>
             <Flex direction="column" gap="3">
@@ -139,18 +176,16 @@ export default function NewStory() {
                     - Upload Zip file of markdown files.
                 */}
 
-                <Flex direction="column" gap="1">
+                <Flex direction="column" gap="2">
                     <Text as="label" htmlFor="storycontent" size="2" weight="medium">Story Content:</Text>
-                        <TextArea
-            placeholder="Story Content"
-            value={story.content}
-            style={{minHeight: '200px'}}
-            onChange={(event) => {
-                const copyStory = {...story}
-                copyStory.content = event.target.value
-                setStory(copyStory)
-            }}
-        />  
+                       
+                {sectionArray.map((section) => {return (
+                section
+                )})}
+                <Button onClick={(e)=>{
+                    e.preventDefault()
+                    setSectionCount(prev => prev + 1)
+                }}>Add Section</Button>
                 </Flex>
                 <Button type="submit">Submit Story</Button>
             </Flex>

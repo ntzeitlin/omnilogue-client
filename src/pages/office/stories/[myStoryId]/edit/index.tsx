@@ -37,7 +37,7 @@ export default function EditStory() {
         excerpt: myStory.excerpt ||  "",
         is_public: myStory.is_public || false,
         category: myStory.category?.name || "",
-        content: myStory.sections[0].content || ""
+        content: [...myStory.sections]
     })
 
     const storySubmissionMutation = useMutation({
@@ -64,11 +64,12 @@ export default function EditStory() {
     const handleSubmit = (e) => {
         e.preventDefault();
         storySubmissionMutation.mutate()
+        router.push(`/library`)
     }
 
     return (
     <Card size="2" m="2" style={{maxWidth: '500px', margin: '0 auto'}}>
-    <Flex direction="column" gap="4" style={{margin: '0, auto', maxWidth: '400px'}}>
+    <Flex direction="column" gap="4" style={{margin: '0, auto', maxWidth: '500px'}}>
         <Text size="5" weight="bold">Create a Story</Text>
         <form onSubmit={handleSubmit}>
             <Flex direction="column" gap="3">
@@ -139,28 +140,29 @@ export default function EditStory() {
                 />
 
 
-                {/* version 1 story handling:
-                    - TextArea for Sections / Chapters
+                {/* 
+                    NOTE:
+                    Users can currently edit existing sections but cannot add new sections to the story.
 
-                    Version 2:
-                    - Button to add new Section -> generates new TextArea
-
-                    Version 3: 
-                    - Upload Zip file of markdown files.
+                    This will be added in later versions.
                 */}
 
                 <Flex direction="column" gap="1">
                     <Text as="label" htmlFor="storycontent" size="2" weight="medium">Story Content:</Text>
-                        <TextArea
-            placeholder="Story Content"
-            value={story.content}
-            style={{minHeight: '200px'}}
-            onChange={(event) => {
-                const copyStory = {...story}
-                copyStory.content = event.target.value
-                setStory(copyStory)
-            }}
-        />  
+                        {story?.content.map((sectionObject, index) => {return (
+                            <TextArea
+                            mb="2"
+                            key={sectionObject.id}
+                            placeholder="Story Content"
+                            value={story.content[index].content}
+                            style={{minHeight: '200px'}}
+                            onChange={(event) => {
+                                const copy = {...story}
+                                copy.content[index].content = event.target.value
+                                setStory(copy)
+                            }}
+                        />  
+                        )})}
                 </Flex>
                 <Button type="submit">Submit Story</Button>
             </Flex>
