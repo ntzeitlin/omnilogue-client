@@ -3,7 +3,7 @@ import { DeskSideBar } from "@/components/deskSidebar"
 import { NavBar } from "@/components/navbar"
 import { StoryOverviewCard } from "@/components/storyoverview"
 import { getAllStories } from "@/data/stories"
-import { Box, Button, Flex, ScrollArea } from "@radix-ui/themes"
+import { Box, Button, Container, Flex, ScrollArea } from "@radix-ui/themes"
 import { useQuery } from "@tanstack/react-query"
 import { useRouter } from "next/router"
 
@@ -41,10 +41,12 @@ Office.getLayout = function getLayout(page)
 {   return (
     <>
         <NavBar />
-        <Flex>
-        <DeskSideBar />
-        {page}
-        </Flex>
+        <Container align="center">
+            <Flex>
+            <DeskSideBar />
+            {page}
+            </Flex>
+        </Container>
     </>
 )
 }
