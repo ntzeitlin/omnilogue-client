@@ -74,13 +74,11 @@ export function useLogin() {
     
     return useMutation({
       mutationFn:  () => {
-        setToken(null);
-        setUserId(null)
+        router.push('/login');
         queryClient.removeQueries({ queryKey: ['token'] });
         queryClient.removeQueries({ queryKey: ['userId'] });
-      },
-      onSuccess: () => {
-        router.push('/login');
+        setToken(null);
+        setUserId(null)
       },
     });
   }
