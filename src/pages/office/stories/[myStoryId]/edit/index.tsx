@@ -5,16 +5,16 @@ import { getStoryDetail } from "@/data/stories";
 import { Button, Card, Flex, Select, Text, TextArea, TextField } from "@radix-ui/themes"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function EditStory() {
-    const {token} = useAuthToken()
-    const queryClient = useQueryClient()
     const router = useRouter()
+    const queryClient = useQueryClient()
+    const {token} = useAuthToken()
     const {myStoryId} = router.query
 
     
-    const {data: categories, isLoading} = useQuery({
+    const {data: categories } = useQuery({
         queryKey: ['categories'],
         queryFn: async () => {
             return await getCategories(token)
@@ -22,24 +22,27 @@ export default function EditStory() {
         enabled: !!token
     })
     
-    const {data: myStory} = useQuery({
+    const {data: myStory, isLoading} = useQuery({
         queryKey: ['story_detail', myStoryId],
         queryFn: async () => {
             return await getStoryDetail(token, myStoryId)
         },
-        enabled: !!myStoryId
+        enabled: !!myStoryId,
     })
 
+    const [story, setStory] = useState({})
 
-    const [story, setStory] = useState({
-        title: myStory?.title || "",
-        subtitle: myStory?.subtitle || "",
-        description: myStory?.description || "",
-        excerpt: myStory?.excerpt ||  "",
-        is_public: myStory?.is_public || false,
-        category: myStory?.category?.name || "",
-        content: [...myStory?.sections]
-    })
+    useEffect(()=> {
+        setStory({ title: myStory?.title || "",
+            subtitle: myStory?.subtitle || "",
+            description: myStory?.description || "",
+            excerpt: myStory?.excerpt ||  "",
+            is_public: myStory?.is_public || false,
+            category: myStory?.category.name || "",
+            content: myStory && [...myStory.sections]})
+    }, [myStory])
+    
+
 
     const storySubmissionMutation = useMutation({
         mutationFn: async () => {
@@ -70,6 +73,7 @@ export default function EditStory() {
         await storySubmissionMutation.mutate()
         router.push(`/library`)
     }
+
 
     return (
     <Card size="2" m="2" style={{maxWidth: '500px', margin: '0 auto'}}>
@@ -153,7 +157,7 @@ export default function EditStory() {
 
                 <Flex direction="column" gap="1">
                     <Text as="label" htmlFor="storycontent" size="2" weight="medium">Story Content:</Text>
-                        {story?.content.map((sectionObject, index) => {return (
+                        {story.content && story?.content.map((sectionObject, index) => {return (
                             <TextArea
                             mb="2"
                             key={sectionObject.id}
