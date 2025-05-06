@@ -51,12 +51,12 @@ const HomePage = () => {
       {
         id: 2,
         title: "Discover More",
-        content: "# The Power of Connected Stories\nOmnilogue brings the concept of linked knowledge to storytelling. Every [[connection]] can lead to new insights, unexpected twists, or deeper context.\n\nAs a reader, you can follow these paths at your own pace, creating a unique journey through each story."
+        content: "# The Power of Connected Stories\nOmnilogue brings the concept of linked knowledge to storytelling. Every [[Connection]] can lead to new insights, unexpected twists, or deeper context.\n\nAs a reader, you can follow these paths at your own pace, creating a unique journey through each story."
       },
       {
         id: 3,
-        title: "connection",
-        content: "# Connections: The Heart of Omnilogue\nIn traditional books, you might find footnotes or references. Here, those connections are seamless and dynamic.\n\nEach story can be organized in the way that makes the most sense for its narrative—chronologically, thematically, or even as a web of interconnected ideas.\n\nReady to [[Try It Yourself]]?"
+        title: "Connection",
+        content: "# Connections: The Heart of Omnilogue\nIn traditional books, you might find footnotes or references. Here, those connections are seamless and dynamic.\n\nEach story can be organized in the way that makes the most sense for its narrative—chronologically, thematically, or even as a web of interconnected ideas.\n\nReady to [[Try It Yourself]]?\n\n Click **'Sign Up Now'** below!"
       }
     ],
     category: { name: "Guide", id: 0 },
@@ -315,10 +315,7 @@ const HomePage = () => {
           <Text size="3" mb="6">Try out our interactive reader with this sample story</Text>
           
           <ReaderDemo story={sampleStory} />
-          
-          <Text size="2" color="gray" align="center" mt="4">
-            Click on the bolded links in the story to navigate between sections, just like in a real Omnilogue story!
-          </Text>
+        
         </Box>
         
         <Separator size="4" my="6" />
