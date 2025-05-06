@@ -102,12 +102,13 @@ export default function NewStory() {
                 <Flex direction="column" gap="1">
                         <Text as="label" htmlFor="category" size="2" weight="medium">Category</Text>
                         <Select.Root
-                            value={story.category || ""}
+                            value={story.category}
                             onValueChange={(event) => {
                                 const copyStory = {...story}
                                 copyStory.category = event
                                 setStory(copyStory)
                             }}
+                            required
                         >
                             <Select.Trigger placeholder="Select Category" />
                             <Select.Content>
@@ -178,6 +179,9 @@ export default function NewStory() {
 
                 <Flex direction="column" gap="2">
                     <Text as="label" htmlFor="storycontent" size="2" weight="medium">Story Content:</Text>
+                    <Text size="1" weight="medium" color="gray">Section Links must match Section Titles exactly. Section Links are written using square brackets.</Text>
+                    <Text size="1" weight="medium" color="gray">Example: # SectionTitle  [[SectionTitle]]</Text>
+
                        
                 {sectionArray.map((section) => {return (
                 section

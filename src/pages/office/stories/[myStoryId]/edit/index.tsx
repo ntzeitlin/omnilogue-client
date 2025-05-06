@@ -63,7 +63,6 @@ export default function EditStory() {
         onSuccess: (data) => {
             queryClient.invalidateQueries({queryKey: ['story_detail', myStoryId]})
             queryClient.setQueryData(['story_detail', myStoryId], data)
-                  
         },
         onError: (error) => {console.log('Error updating story', error)}
     })

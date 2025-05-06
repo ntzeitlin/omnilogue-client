@@ -43,7 +43,7 @@ interface Story {
 
 export const StoryOverviewCard: React.FC<StoryOverviewCardProps> = ({story}) => {
     const {id, is_public, author, title, subtitle, category, story_tags, average_rating} = story
-
+  
     const {token, userId} = useAuthToken()
     const router = useRouter()
     const queryClient = useQueryClient()
@@ -170,6 +170,7 @@ export const StoryOverviewCard: React.FC<StoryOverviewCardProps> = ({story}) => 
             </Flex>
           )}
           
+          
           {/* Rating */}
           {average_rating ? (
             <Flex align="center" gap="1" ml="auto">
@@ -215,7 +216,7 @@ export const StoryOverviewCard: React.FC<StoryOverviewCardProps> = ({story}) => 
                                         </Button>
                                     </AlertDialog.Cancel>
                                     <AlertDialog.Action>
-                                        <Button color="red" onClick={()=>{handleDelete(token, storyId)}}>DELETE</Button>
+                                        <Button color="red" onClick={()=>{handleDelete(token, id)}}>DELETE</Button>
                                     </AlertDialog.Action>
                                 </Flex>
                             </AlertDialog.Content>
