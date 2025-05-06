@@ -165,6 +165,7 @@ export const StoryReader = ({story}) => {
                             </Box>
                         ))
                     )}
+                    {sectionId === 'not-found' ? <>The path forward is unclear, return to the start.</> : ""}
                 </Box>
             </ScrollArea>
 
