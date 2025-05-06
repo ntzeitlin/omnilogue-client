@@ -47,6 +47,7 @@ export const StoryOverviewCard: React.FC<StoryOverviewCardProps> = ({story}) => 
     const {token, userId} = useAuthToken()
     const router = useRouter()
     const queryClient = useQueryClient()
+
     const {data: bookshelf} = useQuery({
       queryKey: ['bookshelf', token],
       queryFn: async () => { return await getBookshelf(token)}
@@ -60,9 +61,13 @@ export const StoryOverviewCard: React.FC<StoryOverviewCardProps> = ({story}) => 
       return bookshelf?.some(story => story?.story.id === id)
     }
     
-    const handleDelete = (token, storyId) => {
-      deleteStory(token, storyId).then(()=> {router.push('/library/')})
-  }
+
+  const handleDeleteMutation = useMutation({
+    mutationFn: async () => { return deleteStory(token, id)},
+    onSettled: () => { queryClient.invalidateQueries({queryKey: ['stories_overview', userId]}) }
+  })
+
+
     const toggleBookshelfMutation = useMutation({
       mutationFn: async () => {
         if (!isOnBookshelf()) {
@@ -216,7 +221,7 @@ export const StoryOverviewCard: React.FC<StoryOverviewCardProps> = ({story}) => 
                                         </Button>
                                     </AlertDialog.Cancel>
                                     <AlertDialog.Action>
-                                        <Button color="red" onClick={()=>{handleDelete(token, id)}}>DELETE</Button>
+                                        <Button color="red" onClick={()=>{handleDeleteMutation.mutate()}}>DELETE</Button>
                                     </AlertDialog.Action>
                                 </Flex>
                             </AlertDialog.Content>
