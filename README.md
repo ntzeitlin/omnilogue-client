@@ -1,5 +1,5 @@
 # OMNILOGUE
-[OMNILOGUE API](https://github.com/ntzeitlin/omnilogue-api)
+Requires: [OMNILOGUE API](https://github.com/ntzeitlin/omnilogue-api)
 
 ## Overview:
 **OMNILOGUE** empowers markdown writers to publish their interconnected content without compromise. Writers currently face a painful choice: either flatten their rich, linked knowledge structures into linear documents or spend countless hours manually reformatting for existing platforms. OMNILOGUE solves this by enabling simple posting of markdown text while preserving markdown formatting, and crucial network of bidirectional links. This gives authors a direct path to sharing their work exactly as envisioned, while providing readers with both traditional chapter navigation and the freedom to explore ideas non-linearly through bi-directional links.
@@ -45,3 +45,4 @@ As a writer, I created OMNILOGUE after discovering the potential of my Obsidian.
 	```
 	npm run dev
 	```
+4. Download and Install the [OMNILOGUE API](https://github.com/ntzeitlin/omnilogue-api)
