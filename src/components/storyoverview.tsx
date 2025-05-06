@@ -111,38 +111,8 @@ export const StoryOverviewCard: React.FC<StoryOverviewCardProps> = ({story}) => 
       return "Loading..."
     }
 
-    // NOTE: Fix formatting for cards
+
     return (
-        // <Box>
-            // <Card>
-            //     <Flex gap="4" justify="center" align="center"> 
-            //         <Flex direction="column" align="center">
-            //             <Link href={`/library/stories/${id}/read/${story.start_section ? story.start_section.id : 1}`}>
-            //               <Text>
-            //               {title} 
-            //               </Text>
-            //             </Link>
-            //             <Text>
-            //             {subtitle ? `"${subtitle}"` : ""}
-            //             </Text>
-            //         </Flex> 
-            //         <Flex align="center">
-            //             {author?.first_name} {author?.last_name}
-            //         </Flex>
-            //         <Flex align="center">
-            //             {category?.name}
-            //         </Flex>
-            //         <Flex align="center">
-            //             {story_tags?.map(story_tag => `"${story_tag.tag.name}", `)}
-            //         </Flex>
-            //         <Flex align="center">
-            //            Average Rating: {average_rating || "No Reviews"}
-            //         </Flex>
-            //         {isOnBookshelf() ? <Button onClick={()=> {toggleBookshelfMutation.mutate()}}>Remove from Bookshelf</Button> : <Button onClick={()=> {toggleBookshelfMutation.mutate()}}>Add to Bookshelf</Button> }
-                    
-            //     </Flex>
-            // </Card>
-        // </Box>
         <Card variant="surface" size="2" mb="3" p="4">
       <Flex direction="column" gap="3">
         {/* Title and Bookmark Button Row */}
