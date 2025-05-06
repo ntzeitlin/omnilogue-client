@@ -64,7 +64,8 @@ export const StoryOverviewCard: React.FC<StoryOverviewCardProps> = ({story}) => 
 
   const handleDeleteMutation = useMutation({
     mutationFn: async () => { return deleteStory(token, id)},
-    onSettled: () => { queryClient.invalidateQueries({queryKey: ['stories_overview', userId]}) }
+    onSettled: () => { router.push('/office')
+      queryClient.invalidateQueries({queryKey: ['stories_overview', userId]}) }
   })
 
 
