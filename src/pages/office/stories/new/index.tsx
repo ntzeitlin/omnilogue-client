@@ -12,7 +12,6 @@ export default function NewStory() {
     const router = useRouter()
 
     
-    
     const {data: categories, isLoading} = useQuery({
         queryKey: ['categories'],
         queryFn: async () => {
@@ -20,7 +19,6 @@ export default function NewStory() {
         },
         enabled: !!token
     })
-    
     
     
     const [sectionCount, setSectionCount] = useState(0)
