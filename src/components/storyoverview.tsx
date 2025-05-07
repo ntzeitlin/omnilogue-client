@@ -1,9 +1,10 @@
 import { useAuthToken } from "@/auth/queries";
-import { getBookshelf } from "@/data/stories";
+import { deleteStory, getBookshelf } from "@/data/stories";
 import { BookmarkFilledIcon, BookmarkIcon } from "@radix-ui/react-icons";
-import { Avatar, Badge, Box, Button, Card, Flex, Heading, Text } from "@radix-ui/themes"
+import { AlertDialog, Avatar, Badge, Box, Button, Card, Flex, Heading, Text } from "@radix-ui/themes"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 interface Author {
     first_name: string;
@@ -42,9 +43,11 @@ interface Story {
 
 export const StoryOverviewCard: React.FC<StoryOverviewCardProps> = ({story}) => {
     const {id, is_public, author, title, subtitle, category, story_tags, average_rating} = story
-
-    const {token} = useAuthToken()
+  
+    const {token, userId} = useAuthToken()
+    const router = useRouter()
     const queryClient = useQueryClient()
+
     const {data: bookshelf} = useQuery({
       queryKey: ['bookshelf', token],
       queryFn: async () => { return await getBookshelf(token)}
@@ -58,6 +61,14 @@ export const StoryOverviewCard: React.FC<StoryOverviewCardProps> = ({story}) => 
       return bookshelf?.some(story => story?.story.id === id)
     }
     
+
+  const handleDeleteMutation = useMutation({
+    mutationFn: async () => { return deleteStory(token, id)},
+    onSettled: () => { router.push('/office')
+      queryClient.invalidateQueries({queryKey: ['stories_overview', userId]}) }
+  })
+
+
     const toggleBookshelfMutation = useMutation({
       mutationFn: async () => {
         if (!isOnBookshelf()) {
@@ -106,38 +117,8 @@ export const StoryOverviewCard: React.FC<StoryOverviewCardProps> = ({story}) => 
       return "Loading..."
     }
 
-    // NOTE: Fix formatting for cards
+
     return (
-        // <Box>
-            // <Card>
-            //     <Flex gap="4" justify="center" align="center"> 
-            //         <Flex direction="column" align="center">
-            //             <Link href={`/library/stories/${id}/read/${story.start_section ? story.start_section.id : 1}`}>
-            //               <Text>
-            //               {title} 
-            //               </Text>
-            //             </Link>
-            //             <Text>
-            //             {subtitle ? `"${subtitle}"` : ""}
-            //             </Text>
-            //         </Flex> 
-            //         <Flex align="center">
-            //             {author?.first_name} {author?.last_name}
-            //         </Flex>
-            //         <Flex align="center">
-            //             {category?.name}
-            //         </Flex>
-            //         <Flex align="center">
-            //             {story_tags?.map(story_tag => `"${story_tag.tag.name}", `)}
-            //         </Flex>
-            //         <Flex align="center">
-            //            Average Rating: {average_rating || "No Reviews"}
-            //         </Flex>
-            //         {isOnBookshelf() ? <Button onClick={()=> {toggleBookshelfMutation.mutate()}}>Remove from Bookshelf</Button> : <Button onClick={()=> {toggleBookshelfMutation.mutate()}}>Add to Bookshelf</Button> }
-                    
-            //     </Flex>
-            // </Card>
-        // </Box>
         <Card variant="surface" size="2" mb="3" p="4">
       <Flex direction="column" gap="3">
         {/* Title and Bookmark Button Row */}
@@ -195,6 +176,7 @@ export const StoryOverviewCard: React.FC<StoryOverviewCardProps> = ({story}) => 
             </Flex>
           )}
           
+          
           {/* Rating */}
           {average_rating ? (
             <Flex align="center" gap="1" ml="auto">
@@ -212,11 +194,43 @@ export const StoryOverviewCard: React.FC<StoryOverviewCardProps> = ({story}) => 
         
         {/* Read Button */}
         <Box mt="2">
+          <Flex gap="2">
+
           <Link href={`/library/stories/${id}/read/${story.start_section ? story.start_section.id : 1}`}>
             <Button variant="soft" color="indigo" size="2" width="100%">
               Read Story
             </Button>
           </Link>
+        {story && parseInt(author?.id) === parseInt(userId) ? 
+                    <>
+                        <Flex gap="2" justify="center">
+                        <Button variant="soft" color="green" onClick={()=>{router.push(`/office/stories/${story.id}/edit`)}}>Edit</Button>
+                        <AlertDialog.Root>
+                            <AlertDialog.Trigger>
+                                <Button variant="soft" color="red">Delete</Button>
+                            </AlertDialog.Trigger>
+                            <AlertDialog.Content maxWidth="450px">
+                                <AlertDialog.Title>Delete Story</AlertDialog.Title>
+                                <AlertDialog.Description size="2">
+                                    Are you sure? This story will no longer be accessible and any related information will also be deleted.
+                                </AlertDialog.Description>
+
+                                <Flex gap="3" mt="4" justify="end">
+                                    <AlertDialog.Cancel>
+                                        <Button variant="soft" color="gray">
+                                            Cancel
+                                        </Button>
+                                    </AlertDialog.Cancel>
+                                    <AlertDialog.Action>
+                                        <Button color="red" onClick={()=>{handleDeleteMutation.mutate()}}>DELETE</Button>
+                                    </AlertDialog.Action>
+                                </Flex>
+                            </AlertDialog.Content>
+                        </AlertDialog.Root>
+                        </Flex>
+                    </> 
+                    : ""}
+          </Flex>
         </Box>
       </Flex>
     </Card>
