@@ -33,7 +33,7 @@ As a writer, I created OMNILOGUE after discovering the potential of my Obsidian.
 1. Clone the repository
 	```
 	git clone git@github.com:ntzeitlin/omnilogue-client.git
-	cd omnilogue
+	cd omnilogue-client
 	```
 
 2. Install dependencies
